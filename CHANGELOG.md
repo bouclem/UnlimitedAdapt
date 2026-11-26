@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.3] - 2026-11-26
+
+### Added
+
+- **GPT-2** support (`gpt2.py`) — all sizes, verified live including
+  component-level injection into attention and MLP submodules
+
+### Changed
+
+- Test suite split into one file per concern: test_injection, test_blending,
+  test_training, test_persistence, test_errors — shared fixtures and helpers
+  live in conftest.py
+
 ## [0.1.2] - 2026-11-26
 
 Five new model families supported, each verified live.

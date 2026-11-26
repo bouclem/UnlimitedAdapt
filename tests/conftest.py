@@ -4,6 +4,22 @@ import torch
 from torch import nn
 import pytest
 
+from unlimitedadapt import MLPAdapter
+
+DIM = 32
+
+
+def make_adapter(hidden=16):
+    torch.manual_seed(42)
+    return MLPAdapter(dim=DIM, hidden_dim=hidden)
+
+
+def disturb(adapter):
+    """Give an adapter non-zero output by randomizing its up-projection."""
+    with torch.no_grad():
+        adapter.up.weight.normal_(0, 0.1)
+        adapter.up.bias.normal_(0, 0.1)
+
 
 class ToyBlock(nn.Module):
     """Minimal decoder-style block: attention + MLP with residual connections."""
