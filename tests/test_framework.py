@@ -235,3 +235,15 @@ class TestErrors:
         manager = AdapterManager(model)
         with pytest.raises(AdapterNotFoundError):
             manager.activate("nonexistent")
+
+
+class TestDtypeDeviceMatching:
+    def test_adapter_matches_base_dtype(self, model, sample_ids):
+        """Real pretrained models are often bf16 — adapters must follow."""
+        model = model.to(torch.bfloat16)
+        manager = AdapterManager(model)
+        manager.attach("layers.0", "skill-a", make_adapter())  # fp32 by default
+        adapter = model.layers[0].adapters["skill-a"]
+        assert next(adapter.parameters()).dtype == torch.bfloat16
+        out = model(sample_ids)  # must not raise a dtype error
+        assert out.dtype == torch.bfloat16

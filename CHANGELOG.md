@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.1.2] - 2026-11-26
+
+Five new model families supported, each verified live.
+
+### Added
+
+- **SmolLM2** (`smollm2.py`) — llama architecture, all sizes
+- **Supra2.5** (`supra2_5.py`) — qwen3 architecture
+- **LFM2.5** (`lfm2_5.py`) — LiquidAI hybrid conv+attention, with
+  per-layer operator resolution (`operator_point`) since attention and
+  conv layers differ
+- **LFM3** (`lfm3.py`) — custom-code LiquidAI hybrid, same operator
+  resolution (needs trust_remote_code to load)
+- **GTM-v2** (`gtm_v2.py`) — nanoGPT-style plain PyTorch model, no
+  transformers integration; loading is manual (documented in the spec)
+- Architecture specs can now expose per-layer operator resolution for
+  heterogeneous hybrid models
+
+### Fixed
+
+- Adapters now adopt the host module's dtype and device when attached —
+  attaching an fp32 adapter to a bf16 pretrained model crashed before
+
 ## [0.1.1] - 2026-11-26
 
 ### Added

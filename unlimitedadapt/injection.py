@@ -31,6 +31,13 @@ class AdaptedModule(nn.Module):
     def attach(self, name: str, adapter: ParallelAdapter, alpha: float = 1.0) -> None:
         if name in self.adapters:
             raise AdapterAttachmentError(f"adapter {name!r} already attached at this point")
+        # match the host module's dtype and device — adapters are created
+        # in fp32/CPU by default but pretrained models are often bf16/GPU
+        try:
+            reference = next(self.base.parameters())
+            adapter = adapter.to(dtype=reference.dtype, device=reference.device)
+        except StopIteration:
+            pass
         self.adapters[name] = adapter
         self._alphas[name] = alpha
         self._active[name] = True
