@@ -1,0 +1,20 @@
+[project]
+name = "unlimitedadapt"
+version = "0.1.1"
+description = "Modular knowledge and capability adapters: parallel adapters with alpha blending for pretrained language models"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["unlimitedadapt*"]
